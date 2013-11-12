@@ -2,6 +2,7 @@
 
 var winston = require('winston');
 var http = require('http');
+var seb = require('seb');
 
 var ProxyServer = function(port) {
     var self = this;
