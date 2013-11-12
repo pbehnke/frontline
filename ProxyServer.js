@@ -2,7 +2,7 @@
 
 var winston = require('winston');
 var http = require('http');
-var seb = require('seb');
+var ResponseManipulator = require('./ResponseManipulator');
 
 var ProxyServer = function(port) {
     var self = this;
@@ -13,10 +13,18 @@ ProxyServer.prototype.start = function() {
     var self = this;
     winston.info("Proxy server started on " + self.port);
 
-//    http.createServer(function (request, response) {
-//        winston.info("Received request for: " + request.url);
-//    //    forwardRequestAndProcessResponse(request, response, new TransparentProxy().process);
-//    }).listen(proxyServerPort);
+    http.createServer(function (request, modifiableResponse) {
+        winston.info("Received request for: " + request.url);
+        executeRequestAndReportResults(request.url, modifiableResponse);
+    }).listen(self.port);
 };
+
+function executeRequestAndReportResults(url, modifiableResponse) {
+    var forwardedRequest = http.request(url, function(forwardedResponse) {
+        modifiableResponse.writeHead(forwardedResponse.statusCode, {'Content-Type': 'text/plain'});
+        modifiableResponse.end();
+    });
+    forwardedRequest.end();
+}
 
 module.exports = ProxyServer;
