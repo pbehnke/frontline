@@ -1,6 +1,6 @@
 "use strict";
 
-var cloneHeaders = require('./CloneHeaders');
+var clonePage = require('./ClonePage');
 
 var ResponseManipulator = function() {};
 
