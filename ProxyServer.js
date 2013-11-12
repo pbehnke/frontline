@@ -13,18 +13,17 @@ ProxyServer.prototype.start = function() {
     var self = this;
     winston.info("Proxy server started on " + self.port);
 
-    http.createServer(function (request, modifiableResponse) {
+    http.createServer(function (request, modifiedResponse) {
         winston.info("Received request for: " + request.url);
-        executeRequestAndReportResults(request.url, modifiableResponse);
+        executeRequestAndReportResults(request.url, modifiedResponse);
     }).listen(self.port);
 };
 
-function executeRequestAndReportResults(url, modifiableResponse) {
-    var forwardedRequest = http.request(url, function(forwardedResponse) {
-        modifiableResponse.writeHead(forwardedResponse.statusCode, {'Content-Type': 'text/plain'});
-        modifiableResponse.end();
+function executeRequestAndReportResults(url, modifiedResponse) {
+    var realRequest = http.request(url, function(realResponse) {
+        new ResponseManipulator().buildResponse(realResponse, modifiedResponse);
     });
-    forwardedRequest.end();
+    realRequest.end();
 }
 
 module.exports = ProxyServer;
