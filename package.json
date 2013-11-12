@@ -1,0 +1,29 @@
+{
+  "name": "fiddle",
+  "version": "0.0.0",
+  "description": "A web debugging proxy in Node.js",
+  "main": "fiddle.js",
+  "dependencies": {
+    "winston": "~0.7.2"
+  },
+  "devDependencies": {
+    "winston": "~0.7.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sebastianpatten/fiddle.git"
+  },
+  "keywords": [
+    "web",
+    "debugging",
+    "proxy"
+  ],
+  "author": "Sebastian Patten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebastianpatten/fiddle/issues"
+  }
+}
