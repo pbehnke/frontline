@@ -1,12 +1,12 @@
 "use strict";
 
-var clonePage = require('./ClonePage');
+var winston = require('winston');
+var headerStrategy = require('./Strategies/Headers/ReturnOriginalHeaders');
 
 var ResponseManipulator = function() {};
 
 ResponseManipulator.prototype.buildResponse = function(realResponse, modifiedResponse) {
-    modifiedResponse.writeHead(realResponse.statusCode, {'Content-Type': 'text/plain'});
-    modifiedResponse.end();
+    headerStrategy.process(realResponse, modifiedResponse);
 };
 
 module.exports = ResponseManipulator;

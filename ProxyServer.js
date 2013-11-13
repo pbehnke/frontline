@@ -5,18 +5,16 @@ var http = require('http');
 var ResponseManipulator = require('./ResponseManipulator');
 
 var ProxyServer = function(port) {
-    var self = this;
-    self.port = port;
+    this.port = port;
 };
 
 ProxyServer.prototype.start = function() {
-    var self = this;
-    winston.info("Proxy server started on " + self.port);
+    winston.info("Proxy server started on " + this.port);
 
     http.createServer(function (request, modifiedResponse) {
         winston.info("Received request for: " + request.url);
         executeRequestAndReportResults(request.url, modifiedResponse);
-    }).listen(self.port);
+    }).listen(this.port);
 };
 
 function executeRequestAndReportResults(url, modifiedResponse) {
