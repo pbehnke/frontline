@@ -7,6 +7,7 @@ var ResponseManipulator = function() {};
 
 ResponseManipulator.prototype.buildResponse = function(realResponse, modifiedResponse) {
     headerStrategy.process(realResponse, modifiedResponse);
+    modifiedResponse.end();
 };
 
 module.exports = ResponseManipulator;
