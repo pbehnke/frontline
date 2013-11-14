@@ -15,13 +15,11 @@ describe('ReturnOriginalHeaders', function(){
         };
 
         mockModifiedResponse = {
-            writeHead: verifyStatusCodeAndHeadersAreBeingSet
+            writeHead: function verifyStatusCodeAndHeadersAreBeingSet(statusCode, headers) {
+                expect(statusCode).to.equal(fakeRealResponse.statusCode);
+                expect(headers).to.equal(fakeRealResponse.headers);
+            }
         };
-
-        function verifyStatusCodeAndHeadersAreBeingSet(statusCode, headers) {
-            expect(statusCode).to.equal(fakeRealResponse.statusCode);
-            expect(headers).to.equal(fakeRealResponse.headers);
-        }
     });
 
     describe('#process()', function(){
