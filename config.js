@@ -1,5 +1,5 @@
 module.exports = {
     proxyServer: {
-        port: 9000
+        port: 9002
     }
 };

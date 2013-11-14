@@ -1,13 +1,10 @@
 "use strict";
 
 var winston = require('winston');
-var headerStrategy = require('./Strategies/Headers/ReturnOriginalHeaders');
+var headerStrategyFactory = require('./Strategies/HeaderStrategyFactory');
 
-var ResponseManipulator = function() {};
-
-ResponseManipulator.prototype.buildResponse = function(realResponse, modifiedResponse) {
-    headerStrategy.process(realResponse, modifiedResponse);
+module.exports.buildResponse = function(realResponse, modifiedResponse) {
+    headerStrategyFactory.getStrategy().process(realResponse, modifiedResponse);
+    winston.info("Finished manipulating response.");
     modifiedResponse.end();
 };
-
-module.exports = ResponseManipulator;

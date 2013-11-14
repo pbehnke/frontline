@@ -2,7 +2,7 @@
 
 var winston = require('winston');
 var http = require('http');
-var ResponseManipulator = require('./ResponseManipulator');
+var responseManipulator = require('./ResponseManipulator');
 
 var ProxyServer = function(port) {
     this.port = port;
@@ -19,7 +19,7 @@ ProxyServer.prototype.start = function() {
 
 function executeRequestAndReportResults(url, modifiedResponse) {
     var realRequest = http.request(url, function(realResponse) {
-        new ResponseManipulator().buildResponse(realResponse, modifiedResponse);
+        responseManipulator.buildResponse(realResponse, modifiedResponse);
     });
     realRequest.end();
 }
