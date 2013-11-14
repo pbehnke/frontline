@@ -8,7 +8,9 @@
   },
   "devDependencies": {
     "winston": "~0.7.2",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "mocha": "~1.14.0",
+    "chai": "~1.8.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
