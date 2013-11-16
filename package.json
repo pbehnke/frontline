@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "description": "A web debugging proxy in Node.js",
   "main": "fiddle.js",
-  "dependencies": {
-    "winston": "~0.7.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "winston": "~0.7.2",
     "underscore": "~1.5.2",
     "mocha": "~1.14.0",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "chokidar": "~0.7.0",
+    "sinon": "~1.7.3",
+    "proxyquire": "~0.5.1"
   },
   "scripts": {
     "test": "make test"
