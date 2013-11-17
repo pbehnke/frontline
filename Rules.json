@@ -1,5 +1,5 @@
 {
     "url": "www.google.com",
     "headers":
-        {"seb": "test"}
+        {"a": "b"}
 }
