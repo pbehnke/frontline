@@ -1,8 +1,8 @@
 var chai = require("chai");
 var expect = chai.expect;
-var AddOrUpdateHeaders = require("../../../lib/Strategies/Headers/AddOrUpdateHeaders");
+var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
-describe('AddOrUpdateHeaders', function(){
+describe('ReplaceHeaders', function(){
     var fakeRealResponse;
     var fakeRules;
     var mockModifiedResponse;
@@ -35,7 +35,7 @@ describe('AddOrUpdateHeaders', function(){
             });
 
             it('should return no headers', function() {
-                new AddOrUpdateHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
+                new ReplaceHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
             });
         });
 
@@ -51,7 +51,7 @@ describe('AddOrUpdateHeaders', function(){
             });
 
             it('should return headers', function() {
-                new AddOrUpdateHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
+                new ReplaceHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
             });
         });
     });

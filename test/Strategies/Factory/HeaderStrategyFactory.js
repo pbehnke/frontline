@@ -2,7 +2,7 @@ var chai = require("chai");
 var expect = chai.expect;
 var headersStrategyFactory = require("../../../lib/Strategies/Factory/HeaderStrategyFactory");
 var ReturnOriginalHeaders = require("../../../lib/Strategies/Headers/ReturnOriginalHeaders");
-var AddOrUpdateHeaders = require("../../../lib/Strategies/Headers/AddOrUpdateHeaders");
+var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
 describe('HeadersStrategyFactory', function(){
     var fakeUrl;
@@ -22,7 +22,7 @@ describe('HeadersStrategyFactory', function(){
             };
         });
 
-        it('should return the AddOrUpdateHeaders when URL does not match', function() {
+        it('should return the ReplaceHeaders when URL does not match', function() {
             var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
             var headerStrategy = new HeaderStrategy();
             expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
@@ -39,11 +39,11 @@ describe('HeadersStrategyFactory', function(){
             };
         });
 
-        it('should return the AddOrUpdateHeaders when URL does match', function() {
+        it('should return the ReplaceHeaders when URL does match', function() {
 
             var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
             var headerStrategy = new HeaderStrategy();
-            expect(headerStrategy).to.be.an.instanceof(new AddOrUpdateHeaders().constructor);
+            expect(headerStrategy).to.be.an.instanceof(new ReplaceHeaders().constructor);
         });
     });
 });

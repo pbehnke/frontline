@@ -2,7 +2,7 @@ var chai = require("chai");
 var expect = chai.expect;
 var ReturnOriginalHeaders = require("../../../lib/Strategies/Headers/ReturnOriginalHeaders");
 
-describe('AddOrUpdateHeaders', function(){
+describe('ReplaceHeaders', function(){
     var fakeRealResponse;
     var mockModifiedResponse;
 
