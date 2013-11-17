@@ -10,58 +10,56 @@ describe('HeadersStrategyFactory', function(){
 
     before(function () {
         fakeUrl = "http://www.google.com";
+
+        fakeRules = {
+            getUrl: function() {
+                return "www.google.com";
+            },
+            getHeaders: function() {
+                return undefined;
+            }
+        };
     });
 
     describe('#getStrategy()', function(){
         describe("when headers are empty", function() {
-            before(function() {
-                fakeRules = {
-                    getUrl: function() {
-                        return "www.google.com";
-                    },
-                    getHeaders: function() {
-                        return undefined;
-                    }
-                };
-            });
-
             it('should return the ReturnOriginalHeaders', function() {
-
                 var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
                 var headerStrategy = new HeaderStrategy();
                 expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
             });
         });
 
-//        before(function() {
-//            fakeRules = {
-//                url: "www.test.com",
-//                headers: {
-//                    seb: "test"
-//                }
-//            };
-//        });
-//
-//        it('should return the ReturnOriginalHeaders when URL does not match', function() {
-//            var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
-//            var headerStrategy = new HeaderStrategy();
-//            expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
-//        });
-//
-//        before(function() {
-//            fakeRules = {
-//                url: "www.google.com",
-//                headers: {
-//                    seb: "test"
-//                }
-//            };
-//        });
-//
-//        it('should return the ReplaceHeaders when URL does match', function() {
-//
-//            var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
-//            var headerStrategy = new HeaderStrategy();
-//            expect(headerStrategy).to.be.an.instanceof(new ReplaceHeaders().constructor);
-//        });
+        describe("when headers are not empty", function() {
+            before(function() {
+                fakeRules.getHeaders = function() {
+                    return {
+                        a: "b"
+                    }
+                };
+            });
+
+            describe("when url matches", function () {
+                it("should return the ReplaceHeaders strategy", function () {
+                    var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
+                    var headerStrategy = new HeaderStrategy();
+                    expect(headerStrategy).to.be.an.instanceof(new ReplaceHeaders().constructor);
+                });
+            });
+
+            describe("when url does not match", function () {
+                before(function() {
+                    fakeRules.getUrl = function() {
+                        return "www.test.com";
+                    };
+                });
+
+                it("should return the ReturnOriginalHeaders strategy", function () {
+                    var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
+                    var headerStrategy = new HeaderStrategy();
+                    expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
+                });
+            });
+        });
     });
 });
