@@ -3,33 +3,35 @@ var expect = chai.expect;
 var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
 describe('ReplaceHeaders', function(){
-    var fakeRealResponse;
-    var fakeRules;
+    var fakeRealResponse = {};
+    var fakeRules = {};
     var mockModifiedResponse;
 
-    before(function () {
-        fakeRealResponse = {
-            headers: [
-                {"a": "b"}
-            ],
-            statusCode: 200
-        };
-
-        mockModifiedResponse = {
-            setExpectedHeaders: function(expectedHeaders) {
-                this.expectedHeaders = expectedHeaders;
-            },
-            writeHead: function verifyStatusCodeAndHeadersAreBeingSet(statusCode, headers) {
-                expect(statusCode).to.equal(fakeRealResponse.statusCode);
-                expect(headers).to.deep.equal(this.expectedHeaders);
-            }
-        };
-    });
-
     describe('#process()', function(){
+        before(function () {
+            fakeRealResponse = {
+                headers: [
+                    {"a": "b"}
+                ],
+                statusCode: 200
+            };
+
+            mockModifiedResponse = {
+                setExpectedHeaders: function(expectedHeaders) {
+                    this.expectedHeaders = expectedHeaders;
+                },
+                writeHead: function verifyStatusCodeAndHeadersAreBeingSet(statusCode, headers) {
+                    expect(statusCode).to.equal(fakeRealResponse.statusCode);
+                    expect(headers).to.deep.equal(this.expectedHeaders);
+                }
+            };
+        });
+
         describe("if no configuration exists for header", function() {
             before(function() {
-                fakeRules = {};
+                fakeRules.getHeaders = function() {
+                    return undefined;
+                };
 
                 mockModifiedResponse.setExpectedHeaders(undefined);
             });
@@ -41,8 +43,8 @@ describe('ReplaceHeaders', function(){
 
         describe("if configuration exists for header", function() {
             before(function() {
-                fakeRules = {
-                    headers: {
+                fakeRules.getHeaders = function() {
+                    return {
                         seb: "test"
                     }
                 };
