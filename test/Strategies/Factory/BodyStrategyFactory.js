@@ -5,9 +5,11 @@ var returnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBod
 
 describe('BodyStrategyFactory', function(){
     describe('#getStrategy()', function(){
-        it('should return the ReturnOriginalBody strategy by default', function() {
-            var bodyStrategy = bodyStrategyFactory.getStrategy();
-            expect(bodyStrategy).to.be.an.instanceof(returnOriginalBody.constructor);
+        describe("when no body is specified", function() {
+            it('should return the ReturnOriginalBody strategy by default', function() {
+                var bodyStrategy = bodyStrategyFactory.getStrategy();
+                expect(bodyStrategy).to.be.an.instanceof(returnOriginalBody.constructor);
+            });
         });
     });
 });

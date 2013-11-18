@@ -1,6 +1,6 @@
 var chai = require("chai");
 var expect = chai.expect;
-var returnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
+var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
 
 describe('ReturnOriginalBody', function(){
     var mockRealResponse;
@@ -32,7 +32,7 @@ describe('ReturnOriginalBody', function(){
 
     describe('#process()', function(){
         it('should forward chunked data', function() {
-            returnOriginalBody.process(mockRealResponse, mockModifiedResponse);
+            new ReturnOriginalBody().process(mockRealResponse, mockModifiedResponse);
             expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
         });
     });
