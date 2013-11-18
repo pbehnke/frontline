@@ -60,4 +60,36 @@ describe('Rules', function() {
             });
         });
     });
+
+    describe('#getBody()', function() {
+        describe("if no body has been specified", function() {
+            before(function() {
+                rulesJson.bodyLocation = undefined;
+            });
+
+            it('should return undefined', function() {
+                expect(new Rules(rulesJson).getBodyLocation()).to.be.undefined;
+            });
+        });
+
+//        describe("if headers is an empty object", function() {
+//            before(function() {
+//                rulesJson.headers = {};
+//            });
+//
+//            it('should return undefined', function() {
+//                expect(new Rules(rulesJson).getHeaders()).to.be.undefined;
+//            });
+//        });
+//
+//        describe("if headers are present", function() {
+//            before(function() {
+//                rulesJson.headers = {"a": "b"};
+//            });
+//
+//            it('should return headers', function() {
+//                expect(new Rules(rulesJson).getHeaders()).to.deep.equal({a: "b"})
+//            });
+//        });
+    });
 });

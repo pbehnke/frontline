@@ -2,7 +2,7 @@ var chai = require("chai");
 var expect = chai.expect;
 var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
 
-describe('ReturnOriginalBody', function(){
+describe('ReplaceBody', function(){
     var mockRealResponse;
     var mockModifiedResponse;
 
