@@ -24,8 +24,7 @@ describe('HeadersStrategyFactory', function(){
     describe('#getStrategy()', function(){
         describe("when headers are empty", function() {
             it('should return the ReturnOriginalHeaders', function() {
-                var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
-                var headerStrategy = new HeaderStrategy();
+                var headerStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
                 expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
             });
         });
@@ -41,8 +40,7 @@ describe('HeadersStrategyFactory', function(){
 
             describe("when url matches", function () {
                 it("should return the ReplaceHeaders strategy", function () {
-                    var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
-                    var headerStrategy = new HeaderStrategy();
+                    var headerStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
                     expect(headerStrategy).to.be.an.instanceof(new ReplaceHeaders().constructor);
                 });
             });
@@ -55,8 +53,7 @@ describe('HeadersStrategyFactory', function(){
                 });
 
                 it("should return the ReturnOriginalHeaders strategy", function () {
-                    var HeaderStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
-                    var headerStrategy = new HeaderStrategy();
+                    var headerStrategy = headersStrategyFactory.getStrategy(fakeUrl, fakeRules);
                     expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
                 });
             });

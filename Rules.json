@@ -1,6 +1,7 @@
 {
     "url": "www.google.com",
     "headers": {
-        "a": "b"
-    }
+        "a": "Some rules"
+    },
+    "body": "Hello World"
 }

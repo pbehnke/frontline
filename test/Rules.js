@@ -1,6 +1,6 @@
 "use strict";
 
-var Rules = require("../lib/Rules");
+var Rules = require("../lib/Rules/Rules");
 var chai = require("chai");
 var expect = chai.expect;
 
@@ -57,6 +57,18 @@ describe('Rules', function() {
 
             it('should return headers', function() {
                 expect(new Rules(rulesJson).getHeaders()).to.deep.equal({a: "b"})
+            });
+        });
+    });
+
+    describe('#getBody()', function() {
+        describe("if no body has been specified", function() {
+            before(function() {
+                rulesJson.bodyLocation = undefined;
+            });
+
+            it('should return undefined', function() {
+                expect(new Rules(rulesJson).getBody()).to.be.undefined;
             });
         });
     });

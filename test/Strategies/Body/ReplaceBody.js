@@ -1,6 +1,6 @@
 var chai = require("chai");
 var expect = chai.expect;
-var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
+var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
 
 describe('ReplaceBody', function(){
     var mockRealResponse;
@@ -30,10 +30,9 @@ describe('ReplaceBody', function(){
         };
     });
 
-    describe('#process()', function(){
-        it('should forward chunked data', function() {
-            new ReturnOriginalBody().process(mockRealResponse, mockModifiedResponse);
-            expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
-        });
-    });
+//    describe('#process()', function() {
+//        it('should replace body with text from file', function() {
+//            new ReplaceBody().process(mockRealResponse, mockModifiedResponse);
+//        });
+//    });
 });
