@@ -13,7 +13,21 @@ describe('BodyReader', function(){
         }
     };
 
-    BodyReader = proxyquire("../../lib/FileReaders/BodyReader", {"fs": fakeFileSystem});
+    var fakeChokidar = {
+        callbackFunction: undefined,
+        watch: function() {
+            return {
+                on: function(name, callback) {
+                    callbackFunction = callback;
+                }
+            }
+        },
+        getCallback: function() {
+            return callbackFunction;
+        }
+    };
+
+    BodyReader = proxyquire("../../lib/FileReaders/BodyReader", {"fs": fakeFileSystem, "chokidar": fakeChokidar});
 
     describe('when a callback is registered', function(){
         beforeEach(function() {
@@ -30,8 +44,12 @@ describe('BodyReader', function(){
     });
 
     describe("when the body file changes", function() {
-        it("should read the body and trigger an event", function() {
+        it("should read the body and trigger an event", function(done) {
+            bodyReader.onBodyReady(function() {
+                done();
+            });
 
+            fakeChokidar.getCallback()();
         });
     });
 });
