@@ -1,18 +1,38 @@
 var chai = require("chai");
 var expect = chai.expect;
-var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
+var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
 
 describe('ReplaceBody', function(){
     var mockRealResponse;
     var mockModifiedResponse;
 
-    describe('#process()', function() {
-//        before(function () {
-//        });
-//
+    before(function () {
+        mockRealResponse = {
+            on: function(event, callback) {
+                if(event === "data") {
+                    callback("Some text");
+                }
+
+                if(event === "end") {
+                    mockModifiedResponse.end();
+                }
+            }
+        };
+
+        mockModifiedResponse = {
+            endFunctionHasBeenCalled: false,
+            write: function(chunk) {
+                expect(chunk).to.equal("Some text");
+            },
+            end: function() {
+                this.endFunctionHasBeenCalled = true;
+            }
+        };
+    });
+
+//    describe('#process()', function() {
 //        it('should replace body with text from file', function() {
 //            new ReplaceBody().process(mockRealResponse, mockModifiedResponse);
-//            expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
 //        });
-    });
+//    });
 });

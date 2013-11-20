@@ -5,7 +5,6 @@ var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBod
 var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
 
 describe('BodyStrategyFactory', function(){
-    var BodyStrategy;
     var bodyStrategy;
     var url;
     var rules = {};
@@ -37,8 +36,7 @@ describe('BodyStrategyFactory', function(){
 
             describe("when no body is specified", function() {
                 it('should return the ReturnOriginalBody strategy', function() {
-                    BodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
-                    bodyStrategy = new BodyStrategy();
+                    bodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
                     expect(bodyStrategy).to.be.an.instanceof(new ReturnOriginalBody().constructor);
                 });
             });
@@ -65,8 +63,7 @@ describe('BodyStrategyFactory', function(){
                 });
 
                 it('should return the ReplaceBody strategy', function() {
-                    BodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
-                    bodyStrategy = new BodyStrategy();
+                    bodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
                     expect(bodyStrategy).to.be.an.instanceof(new ReplaceBody().constructor);
                 });
             });

@@ -18,11 +18,9 @@ describe('ResponseManipulator', function(){
 
         var headerStrategyFactoryStub = {
             getStrategy: function() {
-                return function(url, rules) {
-                    return {
-                        process: function(realResponse, modifiedResponse, rules) {
-                            // Do nothing
-                        }
+                return {
+                    process: function(realResponse, modifiedResponse, rules) {
+                        // Do nothing
                     }
                 }
             }

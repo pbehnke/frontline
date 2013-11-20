@@ -2,5 +2,6 @@
     "url": "www.google.com",
     "headers": {
         "a": "b"
-    }
+    },
+    "bodyLocation": "Body.html"
 }
