@@ -3,7 +3,7 @@ var expect = chai.expect;
 var proxyquire = require("proxyquire");
 var BodyReader;
 
-describe('BodyReader', function(){
+describe('FileWatcher', function(){
     var bodyReader;
     var fakeBodyText = "Some fake body text";
 
@@ -27,7 +27,7 @@ describe('BodyReader', function(){
         }
     };
 
-    BodyReader = proxyquire("../../lib/FileReaders/BodyReader", {"fs": fakeFileSystem, "chokidar": fakeChokidar});
+    BodyReader = proxyquire("../../lib/FileReaders/FileWatcher", {"fs": fakeFileSystem, "chokidar": fakeChokidar});
 
     describe('when a callback is registered', function(){
         beforeEach(function() {
