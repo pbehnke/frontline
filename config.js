@@ -3,7 +3,7 @@ module.exports = {
         port: 8050
     },
     paths: {
-        rules: "./Rules.json",
-        body: "./Body.html"
+        rules: "Rules.json",
+        body: "Body.html"
     }
 };
