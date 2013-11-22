@@ -11,7 +11,8 @@
     "chai": "~1.8.1",
     "chokidar": "~0.7.0",
     "sinon": "~1.7.3",
-    "proxyquire": "~0.5.1"
+    "proxyquire": "~0.5.1",
+    "async": "~0.2.9"
   },
   "scripts": {
     "test": "make test"
