@@ -39,7 +39,7 @@ describe('FileWatcher', function(){
                 done();
             });
 
-            bodyReader.readBody();
+            bodyReader.read();
         });
     });
 

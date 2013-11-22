@@ -3,5 +3,5 @@
     "headers": {
         "a": "b"
     },
-    "bodyLocation": "Body.html"
+    "useBody": "true"
 }

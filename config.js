@@ -1,6 +1,6 @@
 module.exports = {
     proxyServer: {
-        port: 9010
+        port: 8050
     },
     paths: {
         rules: "./Rules.json"
