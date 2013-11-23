@@ -1,6 +1,6 @@
 "use strict";
 
-var Rules = require("../lib/Rules/Rules");
+var Rules = require("../../lib/Rules/Rules");
 var chai = require("chai");
 var expect = chai.expect;
 
