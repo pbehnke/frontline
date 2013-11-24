@@ -23,7 +23,9 @@
   "keywords": [
     "web",
     "debugging",
-    "proxy"
+    "proxy",
+    "fiddler",
+    "transparent proxy"
   ],
   "author": "Sebastian Patten",
   "license": "MIT",
