@@ -6,38 +6,55 @@ var proxyquire = require("proxyquire");
 var fileWatcher;
 
 describe('Rules', function() {
-    var chokadirStub = {
-        watch: function() {
-            return {
-                on: function(name, callback) {
-                    this.callback = callback;
-                },
-                fireOnChange: function() {
-                    this.callback();
-                }
+    var chokadirStub = function(){
+        var _callback;
+
+        return {
+            watch: function() {
+                return {
+                    on: function(name, callback) {
+                        _callback = callback;
+                    }
+                };
+            },
+            fireOnChange: function() {
+                _callback();
             }
-        }
-    };
+        };
+    }();
 
     var fileSystemStub = {
         readFile: function(path, encoding, callback) {
-            callback(null, "Some data");
+            callback(null, expectedFileContent);
         }
     };
 
+    var expectedFileContent = "Some data";
+
     var FileWatcher = proxyquire("../lib/FileWatcher", {"chokidar": chokadirStub, "fs": fileSystemStub});
 
-    describe('#readFile()', function() {
-        beforeEach(function() {
-            fileWatcher = new FileWatcher("/some/path");
-        });
+    beforeEach(function() {
+        fileWatcher = new FileWatcher("/some/path");
+    });
 
+    describe('#readFile()', function() {
         it('should signal any registered callbacks', function(done) {
             fileWatcher.onFileRead(function(data) {
-               done();
+                expect(data).to.equal(expectedFileContent);
+                done();
             });
 
             fileWatcher.readFile();
+        });
+    });
+
+    describe('Chokadir file system changes', function() {
+        it('should signal any registered callbacks', function() {
+            fileWatcher.onFileRead(function(data) {
+//                done();
+            });
+
+            chokadirStub.fireOnChange();
         });
     });
 });
