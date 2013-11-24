@@ -37,6 +37,18 @@ describe('Rules', function() {
         fileWatcher = new FileWatcher("/some/path");
     });
 
+    describe('#constructor', function() {
+        describe('when path is null', function() {
+            it("should return an error", function(done) {
+                try {
+                    new FileWatcher(null);
+                } catch(e) {
+                    done();
+                }
+            });
+        });
+    });
+
     describe('#readFile()', function() {
         it('should signal any registered callbacks', function(done) {
             fileWatcher.onFileRead(function(data) {
@@ -49,9 +61,9 @@ describe('Rules', function() {
     });
 
     describe('Chokadir file system changes', function() {
-        it('should signal any registered callbacks', function() {
+        it('should signal any registered callbacks', function(done) {
             fileWatcher.onFileRead(function(data) {
-//                done();
+                done();
             });
 
             chokadirStub.fireOnChange();
