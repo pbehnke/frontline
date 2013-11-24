@@ -4,7 +4,7 @@ var headersStrategyFactory = require("../../../lib/Strategies/Factory/HeaderStra
 var ReturnOriginalHeaders = require("../../../lib/Strategies/Headers/ReturnOriginalHeaders");
 var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
-describe('HeadersStrategyFactory', function(){
+describe('HeaderStrategyFactory', function(){
     var fakeUrl;
     var fakeRules;
 

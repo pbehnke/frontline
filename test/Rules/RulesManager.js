@@ -4,7 +4,7 @@ var chai = require("chai");
 var expect = chai.expect;
 var proxyquire = require("proxyquire");
 
-describe('Rules', function() {
+describe('RulesManager', function() {
     var fileWatcherStub = function(){
         this.onFileRead = function(callback) {
             this.callback = callback;
