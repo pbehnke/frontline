@@ -1,30 +1,29 @@
 var chai = require("chai");
 var expect = chai.expect;
-var bodyStrategyFactory = require("../../../lib/Strategies/Factory/BodyStrategyFactory");
 var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
 var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
+var proxyquire = require("proxyquire");
+var Rules = require("../../../lib/Rules/Rules");
 
 describe('BodyStrategyFactory', function(){
     var bodyStrategy;
-    var url;
-    var rules = {};
+    var url = "http://www.google.com";
 
-    beforeEach(function setupDefaults() {
-        url = "http://www.google.com";
-        rules = {
-            getUrl: function() {
-                return "www.google.com"
-            },
-            getHeaders: function() {
-                return {
-                    "a": "b"
-                }
-            },
-            getBody: function() {
-                return "Test Content"
-            }
-        };
+    var rules = new Rules({
+        url: "www.google.com",
+        headers: {
+            a: "b"
+        },
+        body: "Test Content"
     });
+
+    var rulesManagerStub = {
+        getRules: function() {
+            return rules;
+        }
+    };
+
+    var bodyStrategyFactory = proxyquire("../../../lib/Strategies/Factory/BodyStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
         describe("when no url is specified", function() {
@@ -36,7 +35,7 @@ describe('BodyStrategyFactory', function(){
 
             describe("when no body is specified", function() {
                 it('should return the ReturnOriginalBody strategy', function() {
-                    bodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
+                    bodyStrategy = bodyStrategyFactory.getStrategy(url);
                     expect(bodyStrategy).to.be.an.instanceof(new ReturnOriginalBody().constructor);
                 });
             });
@@ -63,7 +62,7 @@ describe('BodyStrategyFactory', function(){
                 });
 
                 it('should return the ReplaceBody strategy', function() {
-                    bodyStrategy = bodyStrategyFactory.getStrategy(url, rules);
+                    bodyStrategy = bodyStrategyFactory.getStrategy(url);
                     expect(bodyStrategy).to.be.an.instanceof(new ReplaceBody().constructor);
                 });
             });
