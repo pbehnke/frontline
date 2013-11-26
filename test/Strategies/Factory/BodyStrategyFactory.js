@@ -42,6 +42,12 @@ describe('BodyStrategyFactory', function(){
         });
 
         describe("when url is specified", function() {
+            before(function() {
+                rules.getUrl = function() {
+                    return "www.google.com";
+                };
+            });
+
             describe("when no body is specified", function() {
                 before(function() {
                     rules.getBody = function() {

@@ -4,8 +4,8 @@ var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
 describe('ReplaceHeaders', function(){
     var fakeRealResponse = {};
-    var fakeRules = {};
     var mockModifiedResponse;
+    var fakeRules = {};
 
     describe('#process()', function(){
         before(function () {
@@ -37,7 +37,7 @@ describe('ReplaceHeaders', function(){
             });
 
             it('should return no headers', function() {
-                new ReplaceHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
+                new ReplaceHeaders(fakeRules).process(fakeRealResponse, mockModifiedResponse);
             });
         });
 
@@ -53,7 +53,7 @@ describe('ReplaceHeaders', function(){
             });
 
             it('should return headers', function() {
-                new ReplaceHeaders().process(fakeRealResponse, mockModifiedResponse, fakeRules);
+                new ReplaceHeaders(fakeRules).process(fakeRealResponse, mockModifiedResponse);
             });
         });
     });

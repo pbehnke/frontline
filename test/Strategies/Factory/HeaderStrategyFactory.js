@@ -25,6 +25,12 @@ describe('HeaderStrategyFactory', function(){
     var headersStrategyFactory = proxyquire("../../../lib/Strategies/Factory/HeaderStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
+        before(function() {
+            rules.getHeaders = function() {
+                return undefined;
+            };
+        });
+
         describe("when headers are empty", function() {
             it('should return the ReturnOriginalHeaders', function() {
                 var headerStrategy = headersStrategyFactory.getStrategy(url);
