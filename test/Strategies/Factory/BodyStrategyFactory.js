@@ -1,6 +1,7 @@
 var chai = require("chai");
 var expect = chai.expect;
 var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
+var ReplaceUrls = require("../../../lib/Strategies/Body/ReplaceUrls");
 var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
 var proxyquire = require("proxyquire");
 var Rules = require("../../../lib/Rules/Rules");
@@ -14,7 +15,11 @@ describe('BodyStrategyFactory', function(){
         headers: {
             a: "b"
         },
-        body: "Test Content"
+        body: "Test Content",
+        replaceUrls: {
+            oldUrl: "www.digg.com",
+            newUrl: "www.reddit.com"
+        }
     });
 
     var rulesManagerStub = {
@@ -31,11 +36,12 @@ describe('BodyStrategyFactory', function(){
                 rules.getUrl = function() {
                     return undefined;
                 };
+
+                bodyStrategy = bodyStrategyFactory.getStrategy(url);
             });
 
             describe("when no body is specified", function() {
                 it('should return the ReturnOriginalBody strategy', function() {
-                    bodyStrategy = bodyStrategyFactory.getStrategy(url);
                     expect(bodyStrategy).to.be.an.instanceof(new ReturnOriginalBody().constructor);
                 });
             });
@@ -58,6 +64,23 @@ describe('BodyStrategyFactory', function(){
                 it('should return the ReturnOriginalBody strategy', function() {
                     expect(bodyStrategy).to.be.an.instanceof(new ReturnOriginalBody().constructor);
                 });
+
+                describe("when replaceUrls are specified", function() {
+                    before(function() {
+                        rules.getUrlReplacement = function() {
+                            return {
+                                oldUrl: "www.digg.com",
+                                newUrl: "www.reddit.com"
+                            };
+                        };
+
+                        bodyStrategy = bodyStrategyFactory.getStrategy(url);
+                    });
+
+                    it('should return the ReplaceUrl strategy', function() {
+                        expect(bodyStrategy).to.be.an.instanceof(new ReplaceUrls().constructor);
+                    });
+                });
             });
 
             describe("when body is specified", function() {
@@ -65,11 +88,29 @@ describe('BodyStrategyFactory', function(){
                     rules.getBody = function() {
                         return "abc";
                     };
+
+                    bodyStrategy = bodyStrategyFactory.getStrategy(url);
                 });
 
                 it('should return the ReplaceBody strategy', function() {
-                    bodyStrategy = bodyStrategyFactory.getStrategy(url);
                     expect(bodyStrategy).to.be.an.instanceof(new ReplaceBody().constructor);
+                });
+
+                describe("when replaceUrls are specified", function() {
+                    beforeEach(function() {
+                        rules.getUrlReplacement = function() {
+                            return {
+                                oldUrl: "www.digg.com",
+                                newUrl: "www.reddit.com"
+                            };
+                        };
+
+                        bodyStrategy = bodyStrategyFactory.getStrategy(url);
+                    });
+
+                    it('should return the ReplaceBody strategy', function() {
+                        expect(bodyStrategy).to.be.an.instanceof(new ReplaceBody().constructor);
+                    });
                 });
             });
         });

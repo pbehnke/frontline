@@ -1,7 +1,7 @@
 {
-    "url": "reddit.com",
-    "headers": {
-        "a": "Some rules"
-    },
-    "body": "Hello World"
+    "url": "digg.com",
+    "replaceUrls": {
+        "oldUrl": "digg.com",
+        "newUrl": "reddit.com"
+    }
 }
