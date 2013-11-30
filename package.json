@@ -1,7 +1,7 @@
 {
   "name": "fiddle",
   "version": "0.0.0",
-  "description": "A web debugging proxy in Node.js",
+  "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
   "main": "fiddle.js",
   "dependencies": {
       "winston": "~0.7.2",
