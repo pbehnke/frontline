@@ -1,6 +1,6 @@
 {
-  "name": "fiddle",
-  "version": "0.0.0",
+  "name": "fiddle-proxy",
+  "version": "0.0.1",
   "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
   "main": "fiddle.js",
   "dependencies": {
@@ -31,5 +31,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sebastianpatten/fiddle/issues"
+  },
+  "engines": {
+    "node": ">= 0.10.22"
   }
 }
