@@ -1,4 +1,4 @@
-Fiddle
+Frontline
 ======
 
 ## What does it do?
@@ -9,16 +9,17 @@ Fiddle
 
 ## Why would you want this?
 To help intercept, change and debug web pages for web development.
-Fiddle is a transparent web debugging proxy that can be used for any browser.
+Frontline is a transparent web debugging proxy that can be used for any browser.
 
 ## Limitations
-Currently Fiddle only supports overriding/modifying a single Url.
+Currently Frontline only supports overriding/modifying a single Url.
 
 ## Quick Start
 * Install Node.
+* `npm install frontline`
 * Open Rules.json and add some rules (see Rules.json section below)
 * Run
-`node fiddle.js`
+`node frontline.js`
 * Open your browser of choice. In this example we will use Chrome.
 In Chrome Open Settings, click Show advanced settings... at the bottom. Change Proxy Settings.
 Set the proxy server to be 127.0.0.1 and set the port to 8050.
@@ -45,7 +46,7 @@ All available options are listed below. Make sure you keep the format of this fi
 ### Details
 | Key               | Value                                                                                  |
 | ------------------|:--------------------------------------------------------------------------------------:|
-| url               | Set this URL to the URL that you want to modify. Fiddle will ignore all other URLs.    |
+| url               | Set this URL to the URL that you want to modify. Frontline will ignore all other URLs.    |
 | headers           | Specifying any headers here will override any headers returned by the original server. |
 | body              | Specifying any body will override any body returned by the original server.            |
 | oldUrl            | Set this to the URL you want to find                                                   |
