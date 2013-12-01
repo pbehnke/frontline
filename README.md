@@ -15,11 +15,9 @@ Frontline is a transparent web debugging proxy that can be used for any browser.
 Currently Frontline only supports overriding/modifying a single Url.
 
 ## Quick Start
-* Install Node.
-* `npm install frontline`
-* Open Rules.json and add some rules (see Rules.json section below)
-* Run
-`node frontline.js`
+* Install Node `brew install nodejs`.
+* `npm install -g frontline`
+* Run the program via command line. `frontline`
 * Open your browser of choice. In this example we will use Chrome.
 In Chrome Open Settings, click Show advanced settings... at the bottom. Change Proxy Settings.
 Set the proxy server to be 127.0.0.1 and set the port to 8050.
