@@ -1,8 +1,8 @@
 {
-  "name": "fiddle-proxy",
+  "name": "frontline",
   "version": "0.0.1",
   "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
-  "main": "fiddle.js",
+  "main": "frontline.js",
   "dependencies": {
       "winston": "~0.7.2",
       "underscore": "~1.5.2",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebastianpatten/fiddle.git"
+    "url": "git://github.com/sebastianpatten/frontline.git"
   },
   "keywords": [
     "web",
@@ -30,7 +30,7 @@
   "author": "Sebastian Patten",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sebastianpatten/fiddle/issues"
+    "url": "https://github.com/sebastianpatten/frontline/issues"
   },
   "engines": {
     "node": ">= 0.10.22"
