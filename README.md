@@ -16,7 +16,7 @@ Currently Frontline only supports overriding/modifying a single Url.
 
 ## Quick Start
 * Install Node `brew install nodejs`.
-* `npm install -g frontline`
+* Install frontline `npm install -g frontline`
 * Run the program via command line. `frontline`
 * Open your browser of choice. In this example we will use Chrome.
 In Chrome Open Settings, click Show advanced settings... at the bottom. Change Proxy Settings.
