@@ -1,7 +1,0 @@
-{
-    "url": "digg.com",
-    "replaceUrls": {
-        "oldUrl": "digg.com",
-        "newUrl": "reddit.com"
-    }
-}

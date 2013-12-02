@@ -17,14 +17,16 @@ Currently Frontline only supports overriding/modifying a single Url.
 ## Quick Start
 * Install Node `brew install nodejs`.
 * Install frontline `npm install -g frontline`
-* Run the program via command line. `frontline`
+* Create a Rules.json file - see the below example for options
+* Run the program via command line. `frontline --port 8050 --pathToRulesFile {put the path to your rules file here}`
 * Open your browser of choice. In this example we will use Chrome.
 In Chrome Open Settings, click Show advanced settings... at the bottom. Change Proxy Settings.
 Set the proxy server to be 127.0.0.1 and set the port to 8050.
 * You can modify the Rules.json without having to restart the Proxy Server
 
 ## Rules.json
-All available options are listed below. Make sure you keep the format of this file in true Json format. I.e. keys enclosed in quotation marks.
+All available options are listed below.
+**Make sure you keep the format of this file in true Json format. I.e. keys enclosed in quotation marks.**
 
 ```json
 {

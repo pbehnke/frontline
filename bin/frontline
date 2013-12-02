@@ -3,8 +3,11 @@
 
 var http = require('http');
 var winston = require('winston');
-var cfg = require('../Config');
 var ProxyServer = require('../lib/ProxyServer');
+var argv = require('optimist')
+    .usage('Usage: $0 -port [num] -pathToRulesFile [string]')
+    .demand(['port','pathToRulesFile'])
+    .argv;
 
-var proxyServer = new ProxyServer(cfg.proxyServer.port);
+var proxyServer = new ProxyServer(argv.port, argv.pathToRulesFile);
 proxyServer.start();

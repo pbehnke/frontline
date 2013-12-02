@@ -1,38 +1,40 @@
 {
-    "name": "frontline",
-    "version": "0.0.2",
-    "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
-    "dependencies": {
-        "winston": "~0.7.2",
-        "underscore": "~1.5.2",
-        "chokidar": "~0.7.0"
-    },
-    "devDependencies": {
-        "mocha": "~1.14.0",
-        "chai": "~1.8.1",
-        "proxyquire": "~0.5.1"
-    },
-    "scripts": {
-        "test": "make test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/sebastianpatten/frontline.git"
-    },
-    "keywords": [
-        "web",
-        "debugging",
-        "proxy",
-        "fiddler",
-        "transparent proxy"
-    ],
-    "author": "Sebastian Patten",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/sebastianpatten/frontline/issues"
-    },
-    "engines": {
-        "node": ">= 0.10.22"
-    },
-    "bin": "./bin/frontline"
+  "name": "frontline",
+  "version": "0.0.2",
+  "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
+  "dependencies": {
+    "winston": "~0.7.2",
+    "underscore": "~1.5.2",
+    "chokidar": "~0.7.0",
+    "optimist": "~0.6.0",
+    "q": "~0.9.7"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0",
+    "chai": "~1.8.1",
+    "proxyquire": "~0.5.1"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sebastianpatten/frontline.git"
+  },
+  "keywords": [
+    "web",
+    "debugging",
+    "proxy",
+    "fiddler",
+    "transparent proxy"
+  ],
+  "author": "Sebastian Patten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebastianpatten/frontline/issues"
+  },
+  "engines": {
+    "node": ">= 0.10.22"
+  },
+  "bin": "./bin/frontline"
 }
