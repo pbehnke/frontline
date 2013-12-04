@@ -1,6 +1,6 @@
 {
   "name": "frontline",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A web debugging proxy in Node. Also can be used to create fake JSON REST webservices.",
   "dependencies": {
     "winston": "~0.7.2",
