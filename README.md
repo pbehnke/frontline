@@ -18,7 +18,7 @@ Currently Frontline only supports overriding/modifying a single Url.
 * Install Node `brew install nodejs`.
 * Install frontline `npm install -g frontline`
 * Create a Rules.json file - see the below example for options
-* Run the program via command line. `frontline --port 8050 --pathToRulesFile {put the path to your rules file here}`
+* Run the program via command line. `frontline --port 8050 --pathToRulesFile {path to your Rules.json here}`
 * Open your browser of choice. In this example we will use Chrome.
 In Chrome Open Settings, click Show advanced settings... at the bottom. Change Proxy Settings.
 Set the proxy server to be 127.0.0.1 and set the port to 8050.
@@ -51,23 +51,3 @@ All available options are listed below.
 | body              | Specifying any body will override any body returned by the original server.            |
 | oldUrl            | Set this to the URL you want to find                                                   |
 | newUrl            | Set this to the URL you want to replace with                                           |
-
-
-## config.js
-
-```javascript
-{
-    proxyServer: {
-        port: 8050
-    },
-    paths: {
-        rules: "Rules.json"
-    }
-}
-```
-
-### Details
-| Key               | Value                                                                                  |
-| ------------------|:--------------------------------------------------------------------------------------:|
-| port              | The port that the proxy server runs on.                                                |
-| rules             | The path to the rules file.                                                            |
