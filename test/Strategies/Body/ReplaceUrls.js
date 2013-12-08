@@ -58,7 +58,7 @@ describe('ReplaceUrls', function(){
             });
 
             it("should return the original body", function() {
-                new ReplaceUrls(fakeRules).process(mockRealResponse, mockModifiedResponse);
+                new ReplaceUrls(fakeRules, mockRealResponse).process(mockModifiedResponse);
                 expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
             });
         });
@@ -82,7 +82,7 @@ describe('ReplaceUrls', function(){
                 });
 
                 it("should change the url", function() {
-                    new ReplaceUrls(fakeRules).process(mockRealResponse, mockModifiedResponse);
+                    new ReplaceUrls(fakeRules, mockRealResponse).process(mockModifiedResponse);
                     expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
                 });
             });
@@ -94,7 +94,7 @@ describe('ReplaceUrls', function(){
                 });
 
                 it("should change all of the urls", function() {
-                    new ReplaceUrls(fakeRules).process(mockRealResponse, mockModifiedResponse);
+                    new ReplaceUrls(fakeRules, mockRealResponse).process(mockModifiedResponse);
                     expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
                 });
             });

@@ -37,7 +37,7 @@ describe('ReplaceOriginalHeaders', function(){
 
             mockModifiedResponse.setExpectedNumberOfHeaders(1);
 
-            new ReturnOriginalHeaders().process(fakeRealResponse, mockModifiedResponse);
+            new ReturnOriginalHeaders({}, fakeRealResponse).process(mockModifiedResponse);
         });
 
         it('should return 2 headers if 2 headers exist', function() {
@@ -51,7 +51,7 @@ describe('ReplaceOriginalHeaders', function(){
 
             mockModifiedResponse.setExpectedNumberOfHeaders(2);
 
-            new ReturnOriginalHeaders().process(fakeRealResponse, mockModifiedResponse);
+            new ReturnOriginalHeaders({}, fakeRealResponse).process(mockModifiedResponse);
         });
     });
 });

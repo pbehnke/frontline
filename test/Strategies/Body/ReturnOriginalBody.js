@@ -32,7 +32,7 @@ describe('ReplaceOriginalBody', function(){
 
     describe('#process()', function(){
         it('should forward chunked data', function() {
-            new ReturnOriginalBody().process(mockRealResponse, mockModifiedResponse);
+            new ReturnOriginalBody({}, mockRealResponse).process(mockModifiedResponse);
             expect(mockModifiedResponse.endFunctionHasBeenCalled).to.equal(true);
         });
     });

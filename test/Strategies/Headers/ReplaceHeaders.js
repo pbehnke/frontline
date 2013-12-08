@@ -37,7 +37,7 @@ describe('ReplaceHeaders', function(){
             });
 
             it('should return no headers', function() {
-                new ReplaceHeaders(fakeRules).process(fakeRealResponse, mockModifiedResponse);
+                new ReplaceHeaders(fakeRules).process(mockModifiedResponse);
             });
         });
 
@@ -53,7 +53,7 @@ describe('ReplaceHeaders', function(){
             });
 
             it('should return headers', function() {
-                new ReplaceHeaders(fakeRules).process(fakeRealResponse, mockModifiedResponse);
+                new ReplaceHeaders(fakeRules).process(mockModifiedResponse);
             });
         });
     });

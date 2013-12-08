@@ -29,10 +29,4 @@ describe('ReplaceBody', function(){
             }
         };
     });
-
-//    describe('#process()', function() {
-//        it('should replace body with text from file', function() {
-//            new ReplaceBody().process(mockRealResponse, mockModifiedResponse);
-//        });
-//    });
 });
