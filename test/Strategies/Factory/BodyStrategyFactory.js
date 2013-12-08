@@ -48,6 +48,7 @@ describe('BodyStrategyFactory', function(){
             describe("AND when no body is specified", function() {
                 it('should return the ReturnOriginalBody strategy', function() {
                     expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
+                    expect(bodyStrategy.realResponse).to.exist;
                 });
             });
         });
@@ -62,6 +63,10 @@ describe('BodyStrategyFactory', function(){
             describe("AND the url resolves", function() {
                 before(function() {
                     fakeRealResponse = {};
+                });
+
+                afterEach(function() {
+                    expect(bodyStrategy.realResponse).to.exist;
                 });
 
                 describe("AND when a body is specified", function() {
@@ -148,6 +153,10 @@ describe('BodyStrategyFactory', function(){
             describe("AND when url does resolve", function() {
                 before(function() {
                     fakeRealResponse = {};
+                });
+
+                afterEach(function() {
+                    expect(bodyStrategy.realResponse).to.exist;
                 });
 
                 describe("AND when no body is specified", function() {
