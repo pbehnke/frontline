@@ -52,6 +52,32 @@ describe('BodyStrategyFactory', function(){
             });
         });
 
+        describe("when a different url is specified", function() {
+            before(function() {
+                rules.getUrl = function() {
+                    return "www.digg.com";
+                };
+            });
+
+            describe("AND the url resolves", function() {
+                before(function() {
+                    fakeRealResponse = {};
+                });
+
+                describe("AND when a body is specified", function() {
+                    before(function() {
+                        rules.getBody = function() {
+                            return "Hello World";
+                        };
+                    });
+
+                    it('should return the ReturnOriginalBody strategy', function() {
+                        expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
+                    });
+                });
+            });
+        });
+
         describe("when url is specified", function() {
             before(function() {
                 rules.getUrl = function() {

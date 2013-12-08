@@ -44,6 +44,46 @@ describe('HeaderStrategyFactory', function(){
             });
         });
 
+        describe("when a different url is specified", function() {
+            before(function() {
+                rules.getUrl = function() {
+                    return "www.digg.com";
+                };
+            });
+
+            describe("AND when url does resolve", function() {
+                before(function() {
+                    fakeRealResponse = undefined;
+                });
+
+                describe("AND header rules have been specified", function() {
+                    before(function() {
+                        rules.getHeaders = function() {
+                            return {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            }
+                        };
+                    });
+
+                    it('should return the ReturnOriginalBody strategy', function() {
+                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                    });
+                });
+            });
+        });
+
+        describe("when no url is specified", function() {
+            before(function() {
+                rules.getUrl = function() {
+                    return undefined;
+                };
+            });
+
+            it('should return the ReturnOriginalBody strategy', function() {
+                expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+            });
+        });
+
         describe("when url is specified", function() {
             before(function() {
                 rules.getUrl = function() {
