@@ -27,14 +27,16 @@ describe('HeaderStrategyFactory', function(){
 
     var headersStrategyFactory = proxyquire("../../../lib/Strategies/Factory/HeaderStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
-    describe('#getStrategy()', function(){
+    describe('#getStrategy()', function() {
+        beforeEach(function() {
+            headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
+        });
+
         describe("when no url is specified", function() {
             before(function() {
                 rules.getUrl = function() {
                     return undefined;
                 };
-
-                headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
             });
 
             it('should return the ReturnOriginalBody strategy', function() {
@@ -47,17 +49,37 @@ describe('HeaderStrategyFactory', function(){
                 rules.getUrl = function() {
                     return "www.google.com";
                 };
-
-                headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
             });
 
             describe("AND when url does not resolve", function() {
-                describe("AND header rules have not been specified", function() {
+                before(function() {
+                    fakeRealResponse = undefined;
+                });
 
+                describe("AND header rules have not been specified", function() {
+                    before(function() {
+                        rules.getHeaders = function() {
+                            return undefined;
+                        };
+                    });
+
+                    it("should return ReturnOriginalHeaders strategy", function() {
+                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                    });
                 });
 
                 describe("AND header rules have been specified", function() {
+                    before(function() {
+                        rules.getHeaders = function() {
+                            return {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            }
+                        };
+                    });
 
+                    it("should return ReplaceHeaders strategy", function() {
+                        expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                    });
                 });
             });
 
