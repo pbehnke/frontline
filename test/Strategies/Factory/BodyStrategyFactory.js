@@ -34,7 +34,7 @@ describe('BodyStrategyFactory', function(){
 
     describe('#getStrategy()', function(){
         describe("when no url is specified", function() {
-            beforeEach(function() {
+            before(function() {
                 rules.getUrl = function() {
                     return undefined;
                 };
@@ -91,7 +91,7 @@ describe('BodyStrategyFactory', function(){
                 });
 
                 describe("when body is specified", function() {
-                    beforeEach(function() {
+                    before(function() {
                         rules.getBody = function() {
                             return "abc";
                         };
@@ -104,7 +104,7 @@ describe('BodyStrategyFactory', function(){
                     });
 
                     describe("when replaceUrls are specified", function() {
-                        beforeEach(function() {
+                        before(function() {
                             rules.getUrlReplacement = function() {
                                 return {
                                     oldUrl: "www.digg.com",
@@ -169,14 +169,14 @@ describe('BodyStrategyFactory', function(){
                 });
 
                 describe("AND when body is specified", function() {
-                    beforeEach(function() {
+                    before(function() {
                         rules.getBody = function() {
                             return "abc";
                         };
                     });
 
                     describe("AND when replaceUrls are specified", function() {
-                        beforeEach(function() {
+                        before(function() {
                             rules.getUrlReplacement = function() {
                                 return {
                                     oldUrl: "www.digg.com",
@@ -193,7 +193,7 @@ describe('BodyStrategyFactory', function(){
                     });
 
                     describe("AND when replaceUrls are not specified", function() {
-                        beforeEach(function() {
+                        before(function() {
                             rules.getUrlReplacement = function() {
                                 return undefined;
                             };
