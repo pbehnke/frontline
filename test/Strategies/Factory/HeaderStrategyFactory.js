@@ -63,7 +63,7 @@ describe('HeaderStrategyFactory', function(){
                         };
                     });
 
-                    it("should return ReturnOriginalHeaders strategy", function() {
+                    it("should return the ReturnOriginalHeaders strategy", function() {
                         expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
                     });
                 });
@@ -77,19 +77,41 @@ describe('HeaderStrategyFactory', function(){
                         };
                     });
 
-                    it("should return ReplaceHeaders strategy", function() {
+                    it("should return the ReplaceHeaders strategy", function() {
                         expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
                     });
                 });
             });
 
             describe("AND when url does resolve", function() {
-                describe("AND header rules have not been specified", function() {
+                before(function() {
+                    fakeRealResponse = {};
+                });
 
+                describe("AND header rules have not been specified", function() {
+                    before(function() {
+                        rules.getHeaders = function() {
+                            return undefined;
+                        };
+                    });
+
+                    it("should return the ReturnOriginalHeaders strategy", function() {
+                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                    });
                 });
 
                 describe("AND header rules have been specified", function() {
+                    before(function() {
+                        rules.getHeaders = function() {
+                            return {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            }
+                        };
+                    });
 
+                    it("should return the ReplaceHeaders strategy", function() {
+                        expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                    });
                 });
             });
         });
