@@ -33,13 +33,16 @@ describe('BodyStrategyFactory', function(){
     var bodyStrategyFactory = proxyquire("../../../lib/Strategies/Factory/BodyStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
+        beforeEach(function() {
+            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
+        });
+
         describe("when no url is specified", function() {
             before(function() {
                 rules.getUrl = function() {
                     return undefined;
                 };
 
-                bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
             });
 
             describe("AND when no body is specified", function() {
@@ -80,8 +83,6 @@ describe('BodyStrategyFactory', function(){
                                     newUrl: "www.reddit.com"
                                 };
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReturnOriginalBody strategy', function() {
@@ -95,8 +96,6 @@ describe('BodyStrategyFactory', function(){
                         rules.getBody = function() {
                             return "abc";
                         };
-
-                        bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                     });
 
                     it('should return the ReplaceBody strategy', function() {
@@ -111,8 +110,6 @@ describe('BodyStrategyFactory', function(){
                                     newUrl: "www.reddit.com"
                                 };
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReplaceBody strategy', function() {
@@ -132,8 +129,6 @@ describe('BodyStrategyFactory', function(){
                         rules.getBody = function() {
                             return undefined;
                         };
-
-                        bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                     });
 
                     describe("AND when replaceUrls are specified", function() {
@@ -144,8 +139,6 @@ describe('BodyStrategyFactory', function(){
                                     newUrl: "www.reddit.com"
                                 };
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReplaceUrl strategy', function() {
@@ -158,8 +151,6 @@ describe('BodyStrategyFactory', function(){
                             rules.getUrlReplacement = function() {
                                 return undefined;
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReplaceUrl strategy', function() {
@@ -183,8 +174,6 @@ describe('BodyStrategyFactory', function(){
                                     newUrl: "www.reddit.com"
                                 };
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReplaceBody strategy', function() {
@@ -197,8 +186,6 @@ describe('BodyStrategyFactory', function(){
                             rules.getUrlReplacement = function() {
                                 return undefined;
                             };
-
-                            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
                         });
 
                         it('should return the ReplaceBody strategy', function() {

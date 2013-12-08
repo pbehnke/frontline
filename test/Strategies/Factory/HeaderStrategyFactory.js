@@ -6,6 +6,7 @@ var proxyquire = require("proxyquire");
 var Rules = require("../../../lib/Rules/Rules");
 
 describe('HeaderStrategyFactory', function(){
+    var headerStrategy;
     var url = "http://www.google.com";
 
     var rules = new Rules({
@@ -22,48 +23,51 @@ describe('HeaderStrategyFactory', function(){
         }
     };
 
+    var fakeRealResponse = {};
+
     var headersStrategyFactory = proxyquire("../../../lib/Strategies/Factory/HeaderStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
-        before(function() {
-            rules.getHeaders = function() {
-                return undefined;
-            };
-        });
-
-        describe("when headers are empty", function() {
-            it('should return the ReturnOriginalHeaders', function() {
-                var headerStrategy = headersStrategyFactory.getStrategy(url);
-                expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
-            });
-        });
-
-        describe("when headers are not empty", function() {
+        describe("when no url is specified", function() {
             before(function() {
-                rules.getHeaders = function() {
-                    return {
-                        a: "b"
-                    }
+                rules.getUrl = function() {
+                    return undefined;
                 };
+
+                headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
             });
 
-            describe("when url matches", function () {
-                it("should return the ReplaceHeaders strategy", function () {
-                    var headerStrategy = headersStrategyFactory.getStrategy(url);
-                    expect(headerStrategy).to.be.an.instanceof(new ReplaceHeaders().constructor);
+            it('should return the ReturnOriginalBody strategy', function() {
+                expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+            });
+        });
+
+        describe("when url is specified", function() {
+            before(function() {
+                rules.getUrl = function() {
+                    return "www.google.com";
+                };
+
+                headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
+            });
+
+            describe("AND when url does not resolve", function() {
+                describe("AND header rules have not been specified", function() {
+
+                });
+
+                describe("AND header rules have been specified", function() {
+
                 });
             });
 
-            describe("when url does not match", function () {
-                before(function() {
-                    rules.getUrl = function() {
-                        return "www.test.com";
-                    };
+            describe("AND when url does resolve", function() {
+                describe("AND header rules have not been specified", function() {
+
                 });
 
-                it("should return the ReturnOriginalHeaders strategy", function () {
-                    var headerStrategy = headersStrategyFactory.getStrategy(url);
-                    expect(headerStrategy).to.be.an.instanceof(new ReturnOriginalHeaders().constructor);
+                describe("AND header rules have been specified", function() {
+
                 });
             });
         });
