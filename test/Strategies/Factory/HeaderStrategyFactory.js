@@ -128,6 +128,10 @@ describe('HeaderStrategyFactory', function(){
                     fakeRealResponse = {};
                 });
 
+                afterEach(function() {
+                    expect(headerStrategy.realResponse).to.exist;
+                });
+
                 describe("AND header rules have not been specified", function() {
                     before(function() {
                         rules.getHeaders = function() {
