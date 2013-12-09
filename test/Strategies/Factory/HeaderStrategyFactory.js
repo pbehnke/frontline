@@ -7,15 +7,10 @@ var Rules = require("../../../lib/Rules/Rules");
 
 describe('HeaderStrategyFactory', function(){
     var headerStrategy;
-    var url = "http://www.google.com";
 
-    var rules = new Rules({
-        url: "www.google.com",
-        headers: {
-            a: "b"
-        },
-        body: "Test Content"
-    });
+    var requestedUrl;
+    var rules = {};
+    var fakeRealResponse = {};
 
     var rulesManagerStub = {
         getRules: function() {
@@ -23,138 +18,147 @@ describe('HeaderStrategyFactory', function(){
         }
     };
 
-    var fakeRealResponse = {};
-
     var headersStrategyFactory = proxyquire("../../../lib/Strategies/Factory/HeaderStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function() {
         beforeEach(function() {
-            headerStrategy = headersStrategyFactory.getStrategy(url, fakeRealResponse);
+            headerStrategy = headersStrategyFactory.getStrategy(requestedUrl, fakeRealResponse);
         });
 
-        describe("when no url is specified", function() {
+        describe("when using a requestedUrl with favicon.ico", function () {
             before(function() {
-                rules.getUrl = function() {
-                    return undefined;
-                };
+                requestedUrl = "www.google.com/favicon.ico";
             });
 
-            it('should return the ReturnOriginalBody strategy', function() {
-                expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
-            });
-        });
-
-        describe("when a different url is specified", function() {
-            before(function() {
-                rules.getUrl = function() {
-                    return "www.digg.com";
-                };
-            });
-
-            describe("AND when url does resolve", function() {
+            describe("AND when requestedUrl does not resolve", function() {
                 before(function() {
                     fakeRealResponse = undefined;
                 });
 
-                describe("AND header rules have been specified", function() {
-                    before(function() {
-                        rules.getHeaders = function() {
-                            return {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            }
-                        };
-                    });
-
-                    it('should return the ReturnOriginalBody strategy', function() {
-                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
-                    });
+                it("should return a ReplaceHeaders strategy", function() {
+                    expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                    expect(headerStrategy.realResponse).to.not.exist;
                 });
             });
         });
 
-        describe("when no url is specified", function() {
+        describe("when using a requested url of www.google.com", function() {
             before(function() {
-                rules.getUrl = function() {
-                    return undefined;
-                };
+                requestedUrl = "www.google.com";
             });
 
-            it('should return the ReturnOriginalBody strategy', function() {
-                expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
-            });
-        });
-
-        describe("when url is specified", function() {
-            before(function() {
-                rules.getUrl = function() {
-                    return "www.google.com";
-                };
-            });
-
-            describe("AND when url does not resolve", function() {
+            describe("when url in the configuration is not specified", function() {
                 before(function() {
-                    fakeRealResponse = undefined;
+                    rules.getUrl = function() {
+                        return undefined;
+                    };
                 });
 
-                describe("AND header rules have not been specified", function() {
-                    before(function() {
-                        rules.getHeaders = function() {
-                            return undefined;
-                        };
-                    });
+                it('should return the ReturnOriginalBody strategy', function() {
+                    expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                });
+            });
 
-                    it("should return the ReturnOriginalHeaders strategy", function() {
-                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
-                    });
+            describe("when the url in the configuration is different", function() {
+                before(function() {
+                    rules.getUrl = function() {
+                        return "www.digg.com";
+                    };
                 });
 
-                describe("AND header rules have been specified", function() {
+                describe("AND when requestedUrl does resolve", function() {
                     before(function() {
-                        rules.getHeaders = function() {
-                            return {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            }
-                        };
+                        fakeRealResponse = undefined;
                     });
 
-                    it("should return the ReplaceHeaders strategy", function() {
-                        expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                    describe("AND header rules have been specified", function() {
+                        before(function() {
+                            rules.getHeaders = function() {
+                                return {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                }
+                            };
+                        });
+
+                        it('should return the ReturnOriginalBody strategy', function() {
+                            expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                        });
                     });
                 });
             });
 
-            describe("AND when url does resolve", function() {
+            describe("when url in the configuration is specified", function() {
                 before(function() {
-                    fakeRealResponse = {};
+                    rules.getUrl = function() {
+                        return "www.google.com";
+                    };
                 });
 
-                afterEach(function() {
-                    expect(headerStrategy.realResponse).to.exist;
-                });
-
-                describe("AND header rules have not been specified", function() {
+                describe("AND when requestedUrl does not resolve", function() {
                     before(function() {
-                        rules.getHeaders = function() {
-                            return undefined;
-                        };
+                        fakeRealResponse = undefined;
                     });
 
-                    it("should return the ReturnOriginalHeaders strategy", function() {
-                        expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                    describe("AND header rules have not been specified", function() {
+                        before(function() {
+                            rules.getHeaders = function() {
+                                return undefined;
+                            };
+                        });
+
+                        it("should return the ReturnOriginalHeaders strategy", function() {
+                            expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                        });
+                    });
+
+                    describe("AND header rules have been specified", function() {
+                        before(function() {
+                            rules.getHeaders = function() {
+                                return {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                }
+                            };
+                        });
+
+                        it("should return the ReplaceHeaders strategy", function() {
+                            expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                        });
                     });
                 });
 
-                describe("AND header rules have been specified", function() {
+                describe("AND when requestedUrl does resolve", function() {
                     before(function() {
-                        rules.getHeaders = function() {
-                            return {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            }
-                        };
+                        fakeRealResponse = {};
                     });
 
-                    it("should return the ReplaceHeaders strategy", function() {
-                        expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                    afterEach(function() {
+                        expect(headerStrategy.realResponse).to.exist;
+                    });
+
+                    describe("AND header rules have not been specified", function() {
+                        before(function() {
+                            rules.getHeaders = function() {
+                                return undefined;
+                            };
+                        });
+
+                        it("should return the ReturnOriginalHeaders strategy", function() {
+                            expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+                        });
+                    });
+
+                    describe("AND header rules have been specified", function() {
+                        before(function() {
+                            rules.getHeaders = function() {
+                                return {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                }
+                            };
+                        });
+
+                        it("should return the ReplaceHeaders strategy", function() {
+                            expect(headerStrategy).to.be.an.instanceof(ReplaceHeaders);
+                        });
                     });
                 });
             });

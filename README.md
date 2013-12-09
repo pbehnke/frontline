@@ -32,7 +32,7 @@ All available options are listed below.
 {
     "url": "websitetomodify.com",
     "headers": {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "text/html",
         "Some-Custom-Header": "My custom value"
     },
     "body": "Hello World",

@@ -8,19 +8,10 @@ var Rules = require("../../../lib/Rules/Rules");
 
 describe('BodyStrategyFactory', function(){
     var bodyStrategy;
-    var url = "http://www.google.com";
 
-    var rules = new Rules({
-        url: "www.google.com",
-        headers: {
-            a: "b"
-        },
-        body: "Test Content",
-        replaceUrls: {
-            oldUrl: "www.digg.com",
-            newUrl: "www.reddit.com"
-        }
-    });
+    var requestedUrl;
+    var rules = {};
+    var fakeRealResponse = {};
 
     var rulesManagerStub = {
         getRules: function() {
@@ -28,91 +19,69 @@ describe('BodyStrategyFactory', function(){
         }
     };
 
-    var fakeRealResponse = {};
-
     var bodyStrategyFactory = proxyquire("../../../lib/Strategies/Factory/BodyStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
         beforeEach(function() {
-            bodyStrategy = bodyStrategyFactory.getStrategy(url, fakeRealResponse);
+            bodyStrategy = bodyStrategyFactory.getStrategy(requestedUrl, fakeRealResponse);
         });
 
-        describe("when no url is specified", function() {
+        describe("when using a requestedUrl with favicon.ico", function () {
             before(function() {
-                rules.getUrl = function() {
-                    return undefined;
-                };
-
+                requestedUrl = "www.google.com/favicon.ico";
             });
 
-            describe("AND when no body is specified", function() {
-                it('should return the ReturnOriginalBody strategy', function() {
-                    expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
-                    expect(bodyStrategy.realResponse).to.exist;
-                });
-            });
-        });
-
-        describe("when a different url is specified", function() {
-            before(function() {
-                rules.getUrl = function() {
-                    return "www.digg.com";
-                };
-            });
-
-            describe("AND the url resolves", function() {
+            describe("AND when requestedUrl does not resolve", function() {
                 before(function() {
-                    fakeRealResponse = {};
+                    fakeRealResponse = undefined;
                 });
 
-                afterEach(function() {
-                    expect(bodyStrategy.realResponse).to.exist;
-                });
-
-                describe("AND when a body is specified", function() {
-                    before(function() {
-                        rules.getBody = function() {
-                            return "Hello World";
-                        };
-                    });
-
-                    it('should return the ReturnOriginalBody strategy', function() {
-                        expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
-                    });
+                it("should return a ReplaceBody strategy", function() {
+                    expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                    expect(bodyStrategy.realResponse).to.not.exist;
                 });
             });
         });
 
-        describe("when url is specified", function() {
+        describe("when using a requested url of www.google.com", function() {
             before(function() {
-                rules.getUrl = function() {
-                    return "www.google.com";
-                };
+                requestedUrl = "www.google.com";
             });
 
-            describe("AND when url does not resolve", function() {
+            describe("when no url in the configuration is specified", function() {
                 before(function() {
-                    fakeRealResponse = null;
+                    rules.getUrl = function() {
+                        return undefined;
+                    };
                 });
 
                 describe("AND when no body is specified", function() {
-                    before(function() {
-                        rules.getBody = function() {
-                            return undefined;
-                        };
-                    });
-
                     it('should return the ReturnOriginalBody strategy', function() {
                         expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
                     });
+                });
+            });
 
-                    describe("AND when replaceUrls are specified", function() {
+            describe("when a different url in the configuraiton is specified", function() {
+                before(function() {
+                    rules.getUrl = function() {
+                        return "www.digg.com";
+                    };
+                });
+
+                describe("AND the requestedUrl resolves", function() {
+                    before(function() {
+                        fakeRealResponse = {};
+                    });
+
+                    afterEach(function() {
+                        expect(bodyStrategy.realResponse).to.exist;
+                    });
+
+                    describe("AND when a body is specified", function() {
                         before(function() {
-                            rules.getUrlReplacement = function() {
-                                return {
-                                    oldUrl: "www.digg.com",
-                                    newUrl: "www.reddit.com"
-                                };
+                            rules.getBody = function() {
+                                return "Hello World";
                             };
                         });
 
@@ -121,110 +90,151 @@ describe('BodyStrategyFactory', function(){
                         });
                     });
                 });
-
-                describe("when body is specified", function() {
-                    before(function() {
-                        rules.getBody = function() {
-                            return "abc";
-                        };
-                    });
-
-                    it('should return the ReplaceBody strategy', function() {
-                        expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
-                    });
-
-                    describe("when replaceUrls are specified", function() {
-                        before(function() {
-                            rules.getUrlReplacement = function() {
-                                return {
-                                    oldUrl: "www.digg.com",
-                                    newUrl: "www.reddit.com"
-                                };
-                            };
-                        });
-
-                        it('should return the ReplaceBody strategy', function() {
-                            expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
-                        });
-                    });
-                });
             });
 
-            describe("AND when url does resolve", function() {
+            describe("when url in the configuration is specified", function() {
                 before(function() {
-                    fakeRealResponse = {};
+                    rules.getUrl = function() {
+                        return "www.google.com";
+                    };
                 });
 
-                afterEach(function() {
-                    expect(bodyStrategy.realResponse).to.exist;
-                });
-
-                describe("AND when no body is specified", function() {
+                describe("AND when requestedUrl does not resolve", function() {
                     before(function() {
-                        rules.getBody = function() {
-                            return undefined;
-                        };
+                        fakeRealResponse = null;
                     });
 
-                    describe("AND when replaceUrls are specified", function() {
+                    describe("AND when no body is specified", function() {
                         before(function() {
-                            rules.getUrlReplacement = function() {
-                                return {
-                                    oldUrl: "www.digg.com",
-                                    newUrl: "www.reddit.com"
-                                };
-                            };
-                        });
-
-                        it('should return the ReplaceUrl strategy', function() {
-                            expect(bodyStrategy).to.be.an.instanceof(ReplaceUrls);
-                        });
-                    });
-
-                    describe("AND when replaceUrls are not specified", function() {
-                        before(function() {
-                            rules.getUrlReplacement = function() {
+                            rules.getBody = function() {
                                 return undefined;
                             };
                         });
 
-                        it('should return the ReplaceUrl strategy', function() {
+                        it('should return the ReturnOriginalBody strategy', function() {
                             expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
                         });
-                    });
-                });
 
-                describe("AND when body is specified", function() {
-                    before(function() {
-                        rules.getBody = function() {
-                            return "abc";
-                        };
-                    });
-
-                    describe("AND when replaceUrls are specified", function() {
-                        before(function() {
-                            rules.getUrlReplacement = function() {
-                                return {
-                                    oldUrl: "www.digg.com",
-                                    newUrl: "www.reddit.com"
+                        describe("AND when replaceUrls are specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return {
+                                        oldUrl: "www.digg.com",
+                                        newUrl: "www.reddit.com"
+                                    };
                                 };
+                            });
+
+                            it('should return the ReturnOriginalBody strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
+                            });
+                        });
+                    });
+
+                    describe("when body is specified", function() {
+                        before(function() {
+                            rules.getBody = function() {
+                                return "abc";
                             };
                         });
 
                         it('should return the ReplaceBody strategy', function() {
                             expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
                         });
+
+                        describe("when replaceUrls are specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return {
+                                        oldUrl: "www.digg.com",
+                                        newUrl: "www.reddit.com"
+                                    };
+                                };
+                            });
+
+                            it('should return the ReplaceBody strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                            });
+                        });
+                    });
+                });
+
+                describe("AND when requestedUrl does resolve", function() {
+                    before(function() {
+                        fakeRealResponse = {};
                     });
 
-                    describe("AND when replaceUrls are not specified", function() {
+                    afterEach(function() {
+                        expect(bodyStrategy.realResponse).to.exist;
+                    });
+
+                    describe("AND when no body is specified", function() {
                         before(function() {
-                            rules.getUrlReplacement = function() {
+                            rules.getBody = function() {
                                 return undefined;
                             };
                         });
 
-                        it('should return the ReplaceBody strategy', function() {
-                            expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                        describe("AND when replaceUrls are specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return {
+                                        oldUrl: "www.digg.com",
+                                        newUrl: "www.reddit.com"
+                                    };
+                                };
+                            });
+
+                            it('should return the ReplaceUrl strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReplaceUrls);
+                            });
+                        });
+
+                        describe("AND when replaceUrls are not specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return undefined;
+                                };
+                            });
+
+                            it('should return the ReplaceUrl strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
+                            });
+                        });
+                    });
+
+                    describe("AND when body is specified", function() {
+                        before(function() {
+                            rules.getBody = function() {
+                                return "abc";
+                            };
+                        });
+
+                        describe("AND when replaceUrls are specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return {
+                                        oldUrl: "www.digg.com",
+                                        newUrl: "www.reddit.com"
+                                    };
+                                };
+                            });
+
+                            it('should return the ReplaceBody strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                            });
+                        });
+
+                        describe("AND when replaceUrls are not specified", function() {
+                            before(function() {
+                                rules.getUrlReplacement = function() {
+                                    return undefined;
+                                };
+                            });
+
+                            it('should return the ReplaceBody strategy', function() {
+                                expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                            });
                         });
                     });
                 });

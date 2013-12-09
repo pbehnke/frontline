@@ -3,9 +3,9 @@ var expect = chai.expect;
 var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
 
 describe('ReplaceHeaders', function(){
+    var fakeRules = {};
     var fakeRealResponse = {};
     var mockModifiedResponse;
-    var fakeRules = {};
 
     describe('#process()', function(){
         before(function () {
@@ -29,31 +29,21 @@ describe('ReplaceHeaders', function(){
 
         describe("if no configuration exists for header", function() {
             before(function() {
-                fakeRules.getHeaders = function() {
-                    return undefined;
-                };
-
-                mockModifiedResponse.setExpectedHeaders(undefined);
+                mockModifiedResponse.setExpectedHeaders(null);
             });
 
             it('should return no headers', function() {
-                new ReplaceHeaders(fakeRules).process(mockModifiedResponse);
+                new ReplaceHeaders(fakeRules, fakeRealResponse, null).process(mockModifiedResponse);
             });
         });
 
         describe("if configuration exists for header", function() {
             before(function() {
-                fakeRules.getHeaders = function() {
-                    return {
-                        seb: "test"
-                    }
-                };
-
                 mockModifiedResponse.setExpectedHeaders({seb: "test"});
             });
 
             it('should return headers', function() {
-                new ReplaceHeaders(fakeRules).process(mockModifiedResponse);
+                new ReplaceHeaders(fakeRules, fakeRealResponse, {seb: "test"}).process(mockModifiedResponse);
             });
         });
     });
