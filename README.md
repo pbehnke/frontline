@@ -28,6 +28,20 @@ Set the proxy server to be 127.0.0.1 and set the port to 8050.
 All available options are listed below.
 **Make sure you keep the format of this file in true Json format. I.e. keys enclosed in quotation marks.**
 
+### Example #1 - Return some json
+```json
+{
+    "url": "sebtest.com/abc",
+    "headers": {
+    	"Content-Type": "application/json"
+    },
+    "body": {
+    	"a": "b"
+    }
+}
+```
+
+### Example #2 - Return a new body
 ```json
 {
     "url": "websitetomodify.com",
@@ -35,7 +49,14 @@ All available options are listed below.
         "Content-Type": "text/html",
         "Some-Custom-Header": "My custom value"
     },
-    "body": "Hello World",
+    "body": "Hello World"
+}
+```
+
+### Example #3 - Find and repalce URLs in the body
+```json
+{
+    "url": "websitetomodify.com",
     "replaceUrls": {
         "oldUrl": "replacethisurl.com",
         "newUrl": "withthisurl.com"
