@@ -131,10 +131,12 @@ describe('BodyStrategyFactory', function(){
                         });
                     });
 
-                    describe("when body is specified", function() {
+                    describe("when body is not JSON", function() {
+                        var content = "abc";
+
                         before(function() {
                             rules.getBody = function() {
-                                return "abc";
+                                return content;
                             };
                         });
 
@@ -154,7 +156,25 @@ describe('BodyStrategyFactory', function(){
 
                             it('should return the ReplaceBody strategy', function() {
                                 expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                                expect(bodyStrategy.content).to.equal(content);
                             });
+                        });
+                    });
+
+                    describe("when body is JSON", function() {
+                        var content = {
+                            a: "b"
+                        };
+
+                        before(function() {
+                            rules.getBody = function() {
+                                return content;
+                            };
+                        });
+
+                        it('should return the ReplaceBody strategy', function() {
+                            expect(bodyStrategy).to.be.an.instanceof(ReplaceBody);
+                            expect(bodyStrategy.content).to.equal(JSON.stringify(content));
                         });
                     });
                 });
