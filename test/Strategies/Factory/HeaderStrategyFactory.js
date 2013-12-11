@@ -2,27 +2,31 @@ var chai = require("chai");
 var expect = chai.expect;
 var ReturnOriginalHeaders = require("../../../lib/Strategies/Headers/ReturnOriginalHeaders");
 var ReplaceHeaders = require("../../../lib/Strategies/Headers/ReplaceHeaders");
-var proxyquire = require("proxyquire");
-var Rules = require("../../../lib/Rules/Rules");
+var headersStrategyFactory = require("../../../lib/Strategies/Factory/HeaderStrategyFactory");
 
 describe('HeaderStrategyFactory', function(){
     var headerStrategy;
-
     var requestedUrl;
-    var rules = {};
+    var rule = {};
     var fakeRealResponse = {};
-
-    var rulesManagerStub = {
-        getRules: function() {
-            return rules;
-        }
-    };
-
-    var headersStrategyFactory = proxyquire("../../../lib/Strategies/Factory/HeaderStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function() {
         beforeEach(function() {
-            headerStrategy = headersStrategyFactory.getStrategy(requestedUrl, fakeRealResponse);
+            headerStrategy = headersStrategyFactory.getStrategy(requestedUrl, fakeRealResponse, rule);
+        });
+
+        describe("when rule is undefined", function () {
+            before(function() {
+                rule = undefined;
+            });
+
+            it("should return ReturnOriginalHeaders", function() {
+                expect(headerStrategy).to.be.an.instanceof(ReturnOriginalHeaders);
+            });
+
+            after(function() {
+                rule = {};
+            });
         });
 
         describe("when using a requestedUrl with favicon.ico", function () {
@@ -49,7 +53,7 @@ describe('HeaderStrategyFactory', function(){
 
             describe("when url in the configuration is not specified", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return undefined;
                     };
                 });
@@ -61,7 +65,7 @@ describe('HeaderStrategyFactory', function(){
 
             describe("when the url in the configuration is different", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return "www.digg.com";
                     };
                 });
@@ -71,9 +75,9 @@ describe('HeaderStrategyFactory', function(){
                         fakeRealResponse = undefined;
                     });
 
-                    describe("AND header rules have been specified", function() {
+                    describe("AND header rule have been specified", function() {
                         before(function() {
-                            rules.getHeaders = function() {
+                            rule.getHeaders = function() {
                                 return {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 }
@@ -89,7 +93,7 @@ describe('HeaderStrategyFactory', function(){
 
             describe("when url in the configuration is specified", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return "www.google.com";
                     };
                 });
@@ -99,9 +103,9 @@ describe('HeaderStrategyFactory', function(){
                         fakeRealResponse = undefined;
                     });
 
-                    describe("AND header rules have not been specified", function() {
+                    describe("AND header rule have not been specified", function() {
                         before(function() {
-                            rules.getHeaders = function() {
+                            rule.getHeaders = function() {
                                 return undefined;
                             };
                         });
@@ -111,9 +115,9 @@ describe('HeaderStrategyFactory', function(){
                         });
                     });
 
-                    describe("AND header rules have been specified", function() {
+                    describe("AND header rule have been specified", function() {
                         before(function() {
-                            rules.getHeaders = function() {
+                            rule.getHeaders = function() {
                                 return {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 }
@@ -135,9 +139,9 @@ describe('HeaderStrategyFactory', function(){
                         expect(headerStrategy.realResponse).to.exist;
                     });
 
-                    describe("AND header rules have not been specified", function() {
+                    describe("AND header rule have not been specified", function() {
                         before(function() {
-                            rules.getHeaders = function() {
+                            rule.getHeaders = function() {
                                 return undefined;
                             };
                         });
@@ -147,9 +151,9 @@ describe('HeaderStrategyFactory', function(){
                         });
                     });
 
-                    describe("AND header rules have been specified", function() {
+                    describe("AND header rule have been specified", function() {
                         before(function() {
-                            rules.getHeaders = function() {
+                            rule.getHeaders = function() {
                                 return {
                                     "Content-Type": "application/x-www-form-urlencoded"
                                 }

@@ -5,7 +5,7 @@ var expect = chai.expect;
 var proxyquire = require("proxyquire");
 var fileWatcher;
 
-describe('Rules', function() {
+describe('FileWatcher', function() {
     var chokadirStub = function(){
         var _callback;
 
@@ -51,7 +51,7 @@ describe('Rules', function() {
 
     describe('#readFile()', function() {
         it('should signal any registered callbacks', function(done) {
-            fileWatcher.onFileRead(function(data) {
+            fileWatcher.onFileRead(function(error, data) {
                 expect(data).to.equal(expectedFileContent);
                 done();
             });
@@ -62,7 +62,7 @@ describe('Rules', function() {
 
     describe('Chokadir file system changes', function() {
         it('should signal any registered callbacks', function(done) {
-            fileWatcher.onFileRead(function(data) {
+            fileWatcher.onFileRead(function(error, data) {
                 done();
             });
 

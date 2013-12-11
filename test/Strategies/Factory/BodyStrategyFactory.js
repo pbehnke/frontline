@@ -3,27 +3,32 @@ var expect = chai.expect;
 var ReturnOriginalBody = require("../../../lib/Strategies/Body/ReturnOriginalBody");
 var ReplaceUrls = require("../../../lib/Strategies/Body/ReplaceUrls");
 var ReplaceBody = require("../../../lib/Strategies/Body/ReplaceBody");
-var proxyquire = require("proxyquire");
-var Rules = require("../../../lib/Rules/Rules");
+var bodyStrategyFactory = require("../../../lib/Strategies/Factory/BodyStrategyFactory");
 
 describe('BodyStrategyFactory', function(){
     var bodyStrategy;
 
     var requestedUrl;
-    var rules = {};
+    var rule = {};
     var fakeRealResponse = {};
-
-    var rulesManagerStub = {
-        getRules: function() {
-            return rules;
-        }
-    };
-
-    var bodyStrategyFactory = proxyquire("../../../lib/Strategies/Factory/BodyStrategyFactory", {"../../Rules/RulesManager": rulesManagerStub});
 
     describe('#getStrategy()', function(){
         beforeEach(function() {
-            bodyStrategy = bodyStrategyFactory.getStrategy(requestedUrl, fakeRealResponse);
+            bodyStrategy = bodyStrategyFactory.getStrategy(requestedUrl, fakeRealResponse, rule);
+        });
+
+        describe("when rule is undefined", function () {
+            before(function() {
+                rule = undefined;
+            });
+
+            it("should return ReturnOriginalBody", function() {
+                expect(bodyStrategy).to.be.an.instanceof(ReturnOriginalBody);
+            });
+
+            after(function() {
+                rule = {};
+            });
         });
 
         describe("when using a requestedUrl with favicon.ico", function () {
@@ -50,7 +55,7 @@ describe('BodyStrategyFactory', function(){
 
             describe("when no url in the configuration is specified", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return undefined;
                     };
                 });
@@ -64,7 +69,7 @@ describe('BodyStrategyFactory', function(){
 
             describe("when a different url in the configuraiton is specified", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return "www.digg.com";
                     };
                 });
@@ -80,7 +85,7 @@ describe('BodyStrategyFactory', function(){
 
                     describe("AND when a body is specified", function() {
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return "Hello World";
                             };
                         });
@@ -94,7 +99,7 @@ describe('BodyStrategyFactory', function(){
 
             describe("when url in the configuration is specified", function() {
                 before(function() {
-                    rules.getUrl = function() {
+                    rule.getUrl = function() {
                         return "www.google.com";
                     };
                 });
@@ -106,7 +111,7 @@ describe('BodyStrategyFactory', function(){
 
                     describe("AND when no body is specified", function() {
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return undefined;
                             };
                         });
@@ -117,7 +122,7 @@ describe('BodyStrategyFactory', function(){
 
                         describe("AND when replaceUrls are specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return {
                                         oldUrl: "www.digg.com",
                                         newUrl: "www.reddit.com"
@@ -135,7 +140,7 @@ describe('BodyStrategyFactory', function(){
                         var content = "abc";
 
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return content;
                             };
                         });
@@ -146,7 +151,7 @@ describe('BodyStrategyFactory', function(){
 
                         describe("when replaceUrls are specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return {
                                         oldUrl: "www.digg.com",
                                         newUrl: "www.reddit.com"
@@ -167,7 +172,7 @@ describe('BodyStrategyFactory', function(){
                         };
 
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return content;
                             };
                         });
@@ -190,14 +195,14 @@ describe('BodyStrategyFactory', function(){
 
                     describe("AND when no body is specified", function() {
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return undefined;
                             };
                         });
 
                         describe("AND when replaceUrls are specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return {
                                         oldUrl: "www.digg.com",
                                         newUrl: "www.reddit.com"
@@ -212,7 +217,7 @@ describe('BodyStrategyFactory', function(){
 
                         describe("AND when replaceUrls are not specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return undefined;
                                 };
                             });
@@ -225,14 +230,14 @@ describe('BodyStrategyFactory', function(){
 
                     describe("AND when body is specified", function() {
                         before(function() {
-                            rules.getBody = function() {
+                            rule.getBody = function() {
                                 return "abc";
                             };
                         });
 
                         describe("AND when replaceUrls are specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return {
                                         oldUrl: "www.digg.com",
                                         newUrl: "www.reddit.com"
@@ -247,7 +252,7 @@ describe('BodyStrategyFactory', function(){
 
                         describe("AND when replaceUrls are not specified", function() {
                             before(function() {
-                                rules.getUrlReplacement = function() {
+                                rule.getUrlReplacement = function() {
                                     return undefined;
                                 };
                             });

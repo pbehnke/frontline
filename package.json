@@ -7,7 +7,9 @@
     "underscore": "~1.5.2",
     "chokidar": "~0.7.0",
     "optimist": "~0.6.0",
-    "q": "~0.9.7"
+    "q": "~0.9.7",
+    "validator": "~2.0.0",
+    "JSV": "~4.0.2"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

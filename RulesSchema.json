@@ -1,0 +1,36 @@
+{
+    "type": "array",
+    "items": {
+        "type": [
+            {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "headers": {
+                        "type": "object"
+                    },
+                    "body": {
+                        "type": ["object", "string"]
+                    },
+                    "replaceUrls": {
+                        "type": "object",
+                        "properties": {
+                            "oldUrl": {
+                                "type": "string",
+                                "required": true
+                            },
+                            "newUrl": {
+                                "type": "string",
+                                "required": true
+                            }
+                        }
+                    }
+                },
+                "additionalProperties": false
+            }
+        ]
+    }
+}
