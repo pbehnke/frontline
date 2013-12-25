@@ -11,9 +11,6 @@ Frontline
 To help intercept, change and debug web pages for web development.
 Frontline is a transparent web debugging proxy that can be used for any browser.
 
-## Limitations
-Currently Frontline only supports overriding/modifying a single Url.
-
 ## Quick Start
 * Install Node `brew install nodejs`.
 * Install frontline `npm install -g frontline`
@@ -30,7 +27,7 @@ All available options are listed below.
 
 ### Example #1 - Return some json
 ```json
-{
+[{
     "url": "sebtest.com/abc",
     "headers": {
     	"Content-Type": "application/json"
@@ -38,30 +35,58 @@ All available options are listed below.
     "body": {
     	"a": "b"
     }
-}
+}]
 ```
 
 ### Example #2 - Return a new body
 ```json
-{
+[{
     "url": "websitetomodify.com",
     "headers": {
         "Content-Type": "text/html",
         "Some-Custom-Header": "My custom value"
     },
     "body": "Hello World"
-}
+}]
 ```
 
 ### Example #3 - Find and repalce URLs in the body
 ```json
-{
+[{
     "url": "websitetomodify.com",
     "replaceUrls": {
         "oldUrl": "replacethisurl.com",
         "newUrl": "withthisurl.com"
     }
-}
+}]
+```
+
+### Example #4 - Hooking them all together in a single Rules.json file
+```json
+[{
+     "url": "sebtest.com/abc",
+     "headers": {
+     	"Content-Type": "application/json"
+     },
+     "body": {
+     	"a": "b"
+     }
+ },
+ {
+     "url": "websitetomodify.com",
+     "headers": {
+         "Content-Type": "text/html",
+         "Some-Custom-Header": "My custom value"
+     },
+     "body": "Hello World"
+ },
+ {
+     "url": "websitetomodify.com",
+     "replaceUrls": {
+         "oldUrl": "replacethisurl.com",
+         "newUrl": "withthisurl.com"
+     }
+ }]
 ```
 
 ### Details
