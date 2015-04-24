@@ -1,6 +1,8 @@
 Frontline
 ======
 
+![Build Status](https://travis-ci.org/reverse-entropy/frontline.svg?branch=master "Build Status")
+
 ## What does it do?
 + You can overwrite headers being returned for a given URL
 + You can change the body being returned by a given URL
